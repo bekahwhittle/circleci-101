@@ -5,40 +5,40 @@ jobs:
       - image: circleci/ruby:2.4.1
     steps:
       - checkout
-      - run: echo "A first hello"
-      - run: sleep 5
-  test:
-    docker:
-      - image: circleci/ruby:2.4.1
-    steps:
-      - checkout
-      - run: echo "A more familiar hi"
-      - run: sleep 5
-
+      - run: mkdir -p my_workspace
+      - run: echo "Stream Taylor Swift's The Man" > my_workspace/echo-output
+      - persist_to_workspace: 
+          root: my_workspace
+          paths:
+            - echo-output  
   testa:
     docker:
       - image: circleci/ruby:2.4.1
     steps:
-      - checkout
-      - run: echo "A more familiar hi"
-      - run: sleep 5
+      - attach_workspace:
+          at: my_workspace
+      - run: cat my_workspace/echo-output
+
   testb:
     docker:
       - image: circleci/ruby:2.4.1
     steps:
-      - checkout
-      - run: echo "A localized Salut"
-      - run: sleep 5
-      
-      
+      - run: |
+          if [[ $(cat my_workspace/echo-output) == "Listening to Taylor Swift" ]]; then
+            echo "Doing the Lord's work!";
+          else
+            echo "Girlie get STREAMING!"; exit 1
+          fi 
+
   deploy:
     docker:
       - image: circleci/ruby:2.4.1
     steps:
-      - checkout
-      - run: echo "A final goodbye"
-      - run: sleep 5
-
+      - attach_workspace: 
+          at: my_workspace
+      - run: | 
+          echo "Deploying message!"
+          cat my_workspace/echo-output
 
 workflows:
   version: 2
@@ -46,15 +46,12 @@ workflows:
     jobs:
       - build
       - testa:
-          # runs only if previous succeeds 
           requires:
             - build 
       - testb:
-          # runs only if previous succeeds 
           requires:
             - build 
       - deploy:
-          # runs only if previous succeeds 
           requires:
             - testa
             - testb 

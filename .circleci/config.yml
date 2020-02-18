@@ -24,7 +24,7 @@ jobs:
       - image: circleci/ruby:2.4.1
     steps:
       - run: |
-          if [[ $(cat my_workspace/echo-output) == "Listening to Taylor Swift" ]]; then
+          if [[ $(cat my_workspace/echo-output) == "Stream Taylor Swift's The Man" ]]; then
             echo "Doing the Lord's work!";
           else
             echo "Girlie get STREAMING!"; exit 1

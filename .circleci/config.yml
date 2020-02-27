@@ -18,6 +18,8 @@ jobs:
       - attach_workspace:
           at: my_workspace
       - run: cat my_workspace/echo-output
+      - store_test_results:
+          path: test-results
 
   testb:
     docker:

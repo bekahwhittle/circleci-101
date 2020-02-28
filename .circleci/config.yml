@@ -61,7 +61,7 @@ workflows:
             - build 
       - mocha-test:
           requires: 
-            - testb
+            - testa
       - deploy:
           filters:
             branches:

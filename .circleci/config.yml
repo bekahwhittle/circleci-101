@@ -32,6 +32,12 @@ jobs:
             echo "Girlie get STREAMING!"; exit 1
           fi 
 
+  mocha-test:
+    docker:
+      - image: circleci/ruby:2.4.1
+    steps: 
+      - run: npm test
+
   deploy:
     docker:
       - image: circleci/ruby:2.4.1

@@ -5,21 +5,20 @@ orbs:
 
 executors:
   node:
-    docker:
+    docker: 
       - image: circleci/node:latest
-
 jobs:
-  build:
+  build: 
     executor:
       name: node
       steps:
         - run: echo "Hello Rebekah"
 
-workflows:
+workflows: 
   version: 2.1
-  hello_world:
-    jobs:
+  hello_world: 
+    jobs: 
       - hello-build/hello-build
   build:
-    jobs:
+    jobs: 
       - build
